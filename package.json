@@ -1,0 +1,24 @@
+{
+    "name": "metaserve-js-browserify",
+    "version": "0.0.1",
+    "description": "metaserve plugin for rendering Javascript from .js files with Browserify",
+    "homepage": "http://github.com/prontotype-us/metaserve-js-browserify",
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/prontotype-us/metaserve-js-browserify"
+    },
+    "author": {
+        "name": "Sean Robertson",
+        "url": "http://sprobertson.com"
+    },
+    "main": "lib/index.js",
+    "dependencies": {
+        "metaserve": "0.3.x",
+        "browserify": "6.3.x",
+        "browserify-shim": "3.8.x"
+    },
+    "keywords": [
+        "metaserve"
+    ]
+}
+
