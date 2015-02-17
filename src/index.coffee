@@ -3,6 +3,8 @@ browserify = require 'browserify'
 React = require 'react'
 Compiler = require 'metaserve/src/compiler'
 
+VERBOSE = process.env.METASERVE_VERBOSE?
+
 class BrowserifyCompiler extends Compiler
 
     default_options:
@@ -14,7 +16,7 @@ class BrowserifyCompiler extends Compiler
         return (req, res, next) =>
 
             try
-                console.log '[Browserify compiler] Going to compile ' + coffee_filename
+                console.log '[Browserify compiler] Going to compile ' + coffee_filename if VERBOSE
                 bundler = browserify(options.browserify)
                 @beforeBundle? bundler
                 bundler.add(coffee_filename).bundle().pipe(res)
