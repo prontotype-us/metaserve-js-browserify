@@ -1,6 +1,6 @@
 {
     "name": "metaserve-js-browserify",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "metaserve plugin for rendering Javascript from .js files with Browserify",
     "homepage": "http://github.com/prontotype-us/metaserve-js-browserify",
     "repository": {
@@ -14,8 +14,7 @@
     "main": "lib/index.js",
     "dependencies": {
         "metaserve": "0.3.x",
-        "browserify": "6.3.x",
-        "browserify-shim": "3.8.x"
+        "browserify": "12.x.x"
     },
     "keywords": [
         "metaserve"
