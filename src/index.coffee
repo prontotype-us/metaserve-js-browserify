@@ -11,23 +11,27 @@ class BrowserifyCompiler extends Compiler
         base_dir: './static/js'
         ext: 'js'
 
-    compile: (coffee_filename) ->
+    compile: (coffee_filename, cb) ->
         options = @options
-        return (req, res, next) =>
 
-            try
-                console.log '[Browserify compiler] Going to compile ' + coffee_filename if VERBOSE
-                bundler = browserify(options.browserify)
-                @beforeBundle? bundler
-                bundling = bundler.add(coffee_filename).bundle()
-                bundling.on 'error', (err) ->
-                    console.log '[Browserify compile error]', err
-                    res.end "console.log('[Browserify compile error]', #{JSON.stringify err.toString()})"
-                bundling.pipe(res)
-
-            catch e
+        try
+            console.log '[Browserify compiler] Going to compile ' + coffee_filename if VERBOSE
+            bundler = browserify(options.browserify)
+            @beforeBundle? bundler
+            bundling = bundler.add(coffee_filename).bundle()
+            bundling.on 'error', (err) ->
                 console.log '[Browserify compile error]', err
-                res.send 500, e.toString()
+                cb "[Browserify compile error] #{err}"
+
+            compiled = ''
+            bundling.on 'data', (data) ->
+                compiled += data
+            bundling.on 'end', ->
+                cb null, {compiled}
+
+        catch e
+            console.log '[Browserify compile error]', err
+            cb "[Browserify compile error] #{err}"
 
 module.exports = (options={}) -> new BrowserifyCompiler(options)
 module.exports.BrowserifyCompiler = BrowserifyCompiler
