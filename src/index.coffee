@@ -29,7 +29,7 @@ class BrowserifyCompiler extends Compiler
             bundling.on 'end', ->
                 cb null, {compiled}
 
-        catch e
+        catch err
             console.log '[Browserify compile error]', err
             cb "[Browserify compile error] #{err}"
 
