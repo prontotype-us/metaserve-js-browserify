@@ -20,8 +20,8 @@ class BrowserifyCompiler extends Compiler
             @beforeBundle? bundler
             bundling = bundler.add(coffee_filename).bundle()
             bundling.on 'error', (err) ->
-                console.log '[Browserify compile error]', err
-                cb "[Browserify compile error] #{err}"
+                console.log '[Browserify compile error]', err.toString()
+                cb "[Browserify compile error] #{err.toString()}"
 
             compiled = ''
             bundling.on 'data', (data) ->
@@ -30,8 +30,8 @@ class BrowserifyCompiler extends Compiler
                 cb null, {compiled}
 
         catch err
-            console.log '[Browserify compile error]', err
-            cb "[Browserify compile error] #{err}"
+            console.log '[Browserify compile error]', err.toString()
+            cb "[Browserify compile error] #{err.toString()}"
 
 module.exports = (options={}) -> new BrowserifyCompiler(options)
 module.exports.BrowserifyCompiler = BrowserifyCompiler
