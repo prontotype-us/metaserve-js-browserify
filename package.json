@@ -1,26 +1,24 @@
 {
-    "name": "metaserve-js-browserify",
-    "version": "0.1.3",
-    "description": "metaserve plugin for rendering Javascript from .js files with Browserify",
-    "homepage": "http://github.com/prontotype-us/metaserve-js-browserify",
-    "repository": {
-        "type": "git",
-        "url": "http://github.com/prontotype-us/metaserve-js-browserify"
-    },
-    "author": {
-        "name": "Sean Robertson",
-        "url": "http://sprobertson.com"
-    },
-    "scripts": {
-      "build": "coffee -o lib -c src"
-    },
-    "main": "lib/index.js",
-    "dependencies": {
-        "metaserve": "0.4.x",
-        "browserify": "12.x.x"
-    },
-    "keywords": [
-        "metaserve"
-    ]
+  "name": "metaserve-js-browserify",
+  "version": "0.2.0",
+  "description": "metaserve plugin for rendering Javascript from .js files with Browserify",
+  "homepage": "http://github.com/prontotype-us/metaserve-js-browserify",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/prontotype-us/metaserve-js-browserify"
+  },
+  "author": {
+    "name": "Sean Robertson",
+    "url": "http://sprobertson.com"
+  },
+  "scripts": {
+    "build": "coffee -o lib -c src"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "browserify": "14.x.x"
+  },
+  "keywords": [
+    "metaserve"
+  ]
 }
-
