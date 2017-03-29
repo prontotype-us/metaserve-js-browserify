@@ -29,7 +29,7 @@ module.exports =
 
             config.beforeBundle? bundler
 
-            if config.uglify
+            if config.uglify or (config.bouncing and !config.never_uglify)
                 process.env.NODE_ENV = 'production' # For React
                 bundler = bundler.transform {global: true}, 'uglifyify'
 
