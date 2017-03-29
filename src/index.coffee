@@ -1,44 +1,59 @@
 fs = require 'fs'
 browserify = require 'browserify'
 React = require 'react'
-Compiler = require 'metaserve/lib/compiler'
 
 VERBOSE = process.env.METASERVE_VERBOSE?
 
-class BrowserifyCompiler extends Compiler
+module.exports =
+    ext: 'js'
 
-    default_options:
-        base_dir: './static/js'
-        ext: 'js'
+    default_config:
+        content_type: 'application/javascript'
 
-    compile: (coffee_filename, cb) ->
-        options = @options
+    compile: (filename, config, context, cb) ->
+        console.log '[BrowserifyCompiler.compile]', filename, config if VERBOSE
+        browserify_config = Object.assign {}, config.browserify
 
-        if options.globals
-            options.browserify.insertGlobalVars = {}
-            for global_key, global_value of options.globals
-                options.browserify.insertGlobalVars[global_key] = -> JSON.stringify global_value
-            delete options.globals
+        # Use browserify insertGlobalVars for context
+        if context? and Object.keys(context).length
+            browserify_config.insertGlobalVars = {}
+            Object.keys(context).map (global_key) ->
+                global_value = context[global_key]
+                browserify_config.insertGlobalVars[global_key] = -> JSON.stringify global_value
 
         try
-            console.log '[Browserify compiler] Going to compile ' + coffee_filename if VERBOSE
-            bundler = browserify(options.browserify)
-            @beforeBundle? bundler
-            bundling = bundler.add(coffee_filename).bundle()
+            console.log '[Browserify compiler] Going to compile ' + filename, config if VERBOSE
+
+            # Configure browerify and transforms
+
+            bundler = browserify(browserify_config)
+
+            config.beforeBundle? bundler
+
+            if config.uglify
+                process.env.NODE_ENV = 'production' # For React
+                bundler = bundler.transform {global: true}, 'uglifyify'
+
+            # Do bundling
+
+            bundling = bundler.add(filename).bundle()
             bundling.on 'error', (err) ->
-                console.log '[Browserify compile error]', err.toString()
+                console.error '[Browserify compile error]', err.toString()
                 cb "[Browserify compile error] #{err.toString()}"
 
             compiled = ''
             bundling.on 'data', (data) ->
                 compiled += data
+
+            # Finished bundling
+
             bundling.on 'end', ->
-                cb null, {compiled}
+                cb null, {
+                    content_type: config.content_type
+                    compiled
+                }
 
         catch err
-            console.log '[Browserify compile error]', err.toString()
+            console.error '[Browserify compile error]', err.toString()
             cb "[Browserify compile error] #{err.toString()}"
-
-module.exports = (options={}) -> new BrowserifyCompiler(options)
-module.exports.BrowserifyCompiler = BrowserifyCompiler
 
