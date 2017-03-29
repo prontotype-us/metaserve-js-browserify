@@ -11,6 +11,9 @@
         "name": "Sean Robertson",
         "url": "http://sprobertson.com"
     },
+    "scripts": {
+      "build": "coffee -o lib -c src"
+    },
     "main": "lib/index.js",
     "dependencies": {
         "metaserve": "0.4.x",

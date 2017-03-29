@@ -14,6 +14,12 @@ class BrowserifyCompiler extends Compiler
     compile: (coffee_filename, cb) ->
         options = @options
 
+        if options.globals
+            options.browserify.insertGlobalVars = {}
+            for global_key, global_value of options.globals
+                options.browserify.insertGlobalVars[global_key] = -> JSON.stringify global_value
+            delete options.globals
+
         try
             console.log '[Browserify compiler] Going to compile ' + coffee_filename if VERBOSE
             bundler = browserify(options.browserify)
