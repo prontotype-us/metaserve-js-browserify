@@ -1,6 +1,5 @@
 fs = require 'fs'
 browserify = require 'browserify'
-React = require 'react'
 
 VERBOSE = process.env.METASERVE_VERBOSE?
 
