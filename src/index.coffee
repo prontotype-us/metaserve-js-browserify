@@ -31,13 +31,13 @@ module.exports =
 
             if config.uglify or (config.bouncing and !config.never_uglify)
                 process.env.NODE_ENV = 'production' # For React
-                bundler = bundler.transform {global: true}, 'uglifyify'
+                bundler = bundler.transform {global: true, sourcemap: false}, 'uglifyify'
 
             # Do bundling
 
             bundling = bundler.add(filename).bundle()
             bundling.on 'error', (err) ->
-                console.error '[Browserify compile error]', err.toString()
+                console.error '[Browserify compile error]', err.toString(), err.stack
                 cb "[Browserify compile error] #{err.toString()}"
 
             compiled = ''
