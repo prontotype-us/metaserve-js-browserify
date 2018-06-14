@@ -24,17 +24,10 @@ module.exports =
             console.log '[Browserify compiler] Going to compile ' + filename, config if VERBOSE
 
             # Configure browerify and transforms
-
             bundler = browserify(browserify_config)
-
             config.beforeBundle? bundler
 
-            if config.uglify or (config.bouncing and !config.never_uglify)
-                process.env.NODE_ENV = 'production' # For React
-                bundler = bundler.transform {global: true, sourcemap: false, mangle: false}, 'uglifyify'
-
             # Do bundling
-
             bundling = bundler.add(filename).bundle()
             bundling.on 'error', (err) ->
                 console.error '[Browserify compile error]', err.toString(), err.stack
@@ -45,7 +38,6 @@ module.exports =
                 compiled += data
 
             # Finished bundling
-
             bundling.on 'end', ->
                 cb null, {
                     content_type: config.content_type
